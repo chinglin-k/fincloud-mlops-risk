@@ -5,6 +5,12 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
+from matplotlib import font_manager as fm
+for _f in ["/usr/share/fonts/truetype/arphic/ukai.ttc", "C:/Windows/Fonts/kaiu.ttf"]:
+    try:
+        fm.fontManager.addfont(_f)
+    except (FileNotFoundError, RuntimeError):
+        pass
 plt.rcParams["font.family"] = ["Times New Roman", "Liberation Serif", "DFKai-SB", "AR PL UKai TW", "sans-serif"]
 plt.rcParams["axes.unicode_minus"] = False
 C1, C2, C3 = "#1f4e79", "#e8a33d", "#4a8c5c"
