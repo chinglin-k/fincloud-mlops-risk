@@ -6,7 +6,7 @@ FCU 11501 Financial Cloud Practice (金融上雲實務) · **Group 13** · Catha
 > Enable the credit-risk team to deploy a validated risk model from development to the cloud **within one working day**, with every score traceable, explainable, and monitored for drift.
 
 ## Board
-- GitHub Projects board: `https://github.com/chinglin-k/fincloud-mlops-risk/projects` (Product Backlog, Sprint 2 Backlog)
+- GitHub Projects board: https://github.com/users/chinglin-k/projects/2 (user stories US1–US10 as issues; Todo / In Progress / Done)
 - Backlog export & Sprint 1–2 burndown charts: [`docs/scrum/`](docs/scrum/)
 
 ## Team Roles
