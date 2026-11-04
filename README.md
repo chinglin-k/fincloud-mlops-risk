@@ -87,6 +87,8 @@ Full run in CloudShell took about 3 minutes, from package install to the Lambda 
 
 Screenshots: [`docs/mvp/learnerlab/`](docs/mvp/learnerlab/) (CloudShell, S3, Lambda, DynamoDB, Athena, Pricing Calculator).
 
+Demo video (73 s, captioned walkthrough of the actual run): [`docs/demo/11501_FinCloud_13_MLOps_Demo.mp4`](docs/demo/11501_FinCloud_13_MLOps_Demo.mp4)
+
 ## Cost Estimate (AWS Pricing Calculator, us-east-1, no free tier)
 Assumed production-year volume: 1M scoring calls/month.
 
