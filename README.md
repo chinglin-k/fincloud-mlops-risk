@@ -26,6 +26,7 @@ python -m pytest -q              # 5 tests
 python src/local_demo.py         # local stand-in for the Lambda scorer
 bash aws/deploy_learner_lab.sh   # AWS Learner Lab (us-east-1) end-to-end slice
 ```
+In Learner Lab CloudShell (credentials come from LabRole), install with `python3 -m pip install -q numpy pandas scikit-learn`; `pip install --user` fails inside the CloudShell virtualenv.
 Expected (seed 42): 10,100 raw rows → 10,000 curated rows; Logistic AUC 0.764 / KS 0.397; GBM AUC 0.741; drift ALERT on 3 features.
 
 ## Architecture (MVP slice)
@@ -71,6 +72,34 @@ docs/                    figures, Scrum evidence, MVP screenshots
 | default_12m | int | target: default within 12 months |
 
 `gender` and `age_band` live in `curated/fairness_attrs.csv` and are used **only for fairness monitoring, never as features**.
+
+## Learner Lab Results (2026-11-04, us-east-1)
+Full run in CloudShell took about 3 minutes, from package install to the Lambda response.
+
+| Step | Result |
+|---|---|
+| Data | 10,100 raw rows → 10,000 curated rows |
+| Training | Logistic AUC 0.7638 / KS 0.397 (champion); GBM AUC 0.7411 |
+| S3 | `raw/`, `processed/`, `curated/`, `models/`; SSE-S3, Block Public Access, versioning |
+| Athena | `fincloud_risk.features`: 10,000 rows, default rate 21.59% |
+| Lambda `risk-score` | PD 0.7957 → `MANUAL_REVIEW_HIGH_RISK`, model version recorded |
+| DynamoDB `risk_score_audit` | audit item written for the call |
+
+Screenshots: [`docs/mvp/learnerlab/`](docs/mvp/learnerlab/) (CloudShell, S3, Lambda, DynamoDB, Athena, Pricing Calculator).
+
+## Cost Estimate (AWS Pricing Calculator, us-east-1, no free tier)
+Assumed production-year volume: 1M scoring calls/month.
+
+| Service | Assumption (per month) | USD / month |
+|---|---|---|
+| Lambda (x86, 128 MB) | 1M requests × 200 ms | 0.62 |
+| S3 Standard | 100 GB; 100k PUT, 1M GET | 3.20 |
+| DynamoDB on-demand | 5 GB; 1M writes, 100k reads | 1.89 |
+| Athena | 20 queries/day × 1 GB scanned | 2.97 |
+| **Total** | 12 months: **104.16**; 3 years ≈ 312.48 | **8.68** |
+
+Estimate link: https://calculator.aws/#/estimate?id=1e824c1048f35dd28db3850e7d57fe6ced01304c  
+Not included: CloudWatch, CloudTrail, KMS CMK, VPC endpoints and monthly retraining compute (production only). The Learner Lab run itself costs close to zero; always press End Lab.
 
 ## Decision Log
 | # | Date | Decision | Why | Alternative |

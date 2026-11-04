@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Learner Lab (us-east-1) end-to-end slice: S3 (private, encrypted) -> Athena -> Lambda scoring -> DynamoDB audit
-# Prereq: Start Lab, paste AWS CLI credentials into ~/.aws/credentials (NEVER commit them)
+# Prereq: Start Lab, then either open CloudShell (uses LabRole, no keys needed) or paste AWS CLI
+#         credentials into ~/.aws/credentials locally (NEVER commit them).
+# In CloudShell run `python3 -m pip install -q numpy pandas scikit-learn && make all` first;
+# `pip install --user` fails inside the CloudShell virtualenv.
 set -euo pipefail
 REGION=us-east-1
 ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
