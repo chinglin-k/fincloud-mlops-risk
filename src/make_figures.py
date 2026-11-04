@@ -5,7 +5,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
-plt.rcParams["font.family"] = ["WenQuanYi Zen Hei", "Noto Sans CJK TC", "Microsoft JhengHei", "sans-serif"]
+plt.rcParams["font.family"] = ["Times New Roman", "Liberation Serif", "DFKai-SB", "AR PL UKai TW", "sans-serif"]
 plt.rcParams["axes.unicode_minus"] = False
 C1, C2, C3 = "#1f4e79", "#e8a33d", "#4a8c5c"
 out = "docs/img/"
