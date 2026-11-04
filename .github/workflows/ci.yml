@@ -1,0 +1,14 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test-and-train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q
+      - run: make all
+      - name: AUC gate
+        run: python -c "import json;m=json.load(open('reports/metrics.json'));assert m['logistic']['auc']>=0.70, m"

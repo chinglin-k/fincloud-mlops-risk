@@ -1,0 +1,20 @@
+$ git clone <repo> && cd fincloud-mlops-risk && pip install -r requirements.txt
+$ make all
+python data/generate_data.py --n 10000 --seed 42 --out data/raw/applications.csv
+wrote 10100 rows -> data/raw/applications.csv
+python data/generate_data.py --n 3000 --seed 7 --drift 1.0 --out data/raw/applications_2026q1.csv
+wrote 3030 rows -> data/raw/applications_2026q1.csv
+python -m src.clean
+{"rows": 10100, "duplicates": 100, "missing_income": 300, "invalid_debt_ratio": 55, "default_rate": 0.2158, "rows_after_clean": 10000}
+python -m src.train
+{"logistic": {"auc": 0.7638, "ks": 0.397}, "gbm": {"auc": 0.7411, "ks": 0.3686}, "n_train": 7500, "n_test": 2500}
+python -m src.monitor data/raw/applications.csv data/raw/applications_2026q1.csv
+{"ALERT": ["debt_ratio", "credit_utilization", "late_payments_12m"], "retrain": true}
+$ python -m pytest -q
+.....                                                                    [100%]
+5 passed in 0.32s
+$ python src/local_demo.py   # 模擬 Lambda 評分
+{"model_version": "v20261104150738", "pd": 0.7957, "decision": "MANUAL_REVIEW_HIGH_RISK", "top_factors": ["late_payments_12m", "credit_utilization", "debt_ratio"]}
+{"model_version": "v20261104150738", "pd": 0.0131, "decision": "AUTO_APPROVE", "top_factors": ["late_payments_12m", "credit_utilization", "debt_ratio"]}
+$ cat models/registry.json | tail -1 (節錄)
+{"version": "v20261104150738", "champion": "logistic", "status": "staging", "sha256": "c79daa00a4ff"}

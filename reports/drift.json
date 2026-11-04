@@ -1,0 +1,25 @@
+{
+  "psi": {
+    "annual_income": 0.0,
+    "employment_years": 0.002,
+    "debt_ratio": 0.5356,
+    "credit_utilization": 0.3349,
+    "late_payments_12m": 0.2851,
+    "inquiries_6m": 0.0006,
+    "num_credit_lines": 0.0012,
+    "loan_amount": 0.004,
+    "loan_term_months": 0.0013
+  },
+  "status": {
+    "annual_income": "OK",
+    "employment_years": "OK",
+    "debt_ratio": "ALERT",
+    "credit_utilization": "ALERT",
+    "late_payments_12m": "ALERT",
+    "inquiries_6m": "OK",
+    "num_credit_lines": "OK",
+    "loan_amount": "OK",
+    "loan_term_months": "OK"
+  },
+  "retrain": true
+}

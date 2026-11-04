@@ -1,0 +1,11 @@
+﻿id,moscow,points,sprint,user_story,acceptance,owner
+US1,Must,5,1,身為資料工程師，我想要可重現的合成授信資料，以便不使用任何真實個資也能開發模型。,"固定亂數種子產生 10,000 筆；不含姓名、身分證字號；含缺值、錯誤值、重複列各一類",陳堃益
+US2,Must,5,1,身為法遵人員，我想要資料分為 raw／processed／curated 三層，以便追溯每一次清理並在 curated 層去識別化。,raw 唯讀；curated 無 customer_id、性別、年齡層；測試 test_no_sensitive_in_curated 通過,陳堃益
+US3,Must,8,1,身為授信風控主管，我想要一個可解釋的違約機率模型，以便在核貸前看到風險排序。,測試集 AUC ≥ 0.70、KS ≥ 0.30；輸出前三大影響因子,林冠宇
+US4,Must,5,2,身為模型驗證人員，我想要每次訓練都寫入模型登錄，以便知道線上用的是哪一版。,registry.json 含版本、指標、雜湊值、狀態；AUC 未達門檻標示 rejected,林冠宇
+US5,Must,8,2,身為授信系統，我想要呼叫雲端評分 API，以便在一秒內取得違約機率與建議。,Lambda 回傳 pd、decision、model_version；每次呼叫寫入 DynamoDB 稽核表,賴政豪
+US6,Should,5,2,身為開發組員，我想要每次推送都自動測試與訓練，以便品質不靠人工檢查。,GitHub Actions 執行 pytest＋make all；AUC < 0.70 時工作流程失敗,賴政豪
+US7,Should,5,2,身為模型負責人，我想要每月比對新資料分布，以便在模型失準前收到重訓告警。（業師回饋 Issue，label：mentor）,計算 9 項特徵 PSI；> 0.25 標示 ALERT 並輸出 retrain=true,林冠宇
+US8,Should,3,2,身為授信人員，我想要高風險案件一律轉人工覆核，以便模型不單獨做出不利客戶的決定。,PD ≥ 0.10 轉人工；PD ≥ 0.35 標示高風險；測試 test_high_risk_goes_to_human 通過,高慶霖
+US9,Could,5,3,身為法遵人員，我想要按性別、年齡層檢視核准率差異，以便證明模型沒有不公平對待。,各群組核准率差異 ≤ 5 個百分點，超過則告警,凃苙程
+US10,Could,8,4,身為平臺管理者，我想要在正式環境改用 SageMaker Pipelines，以便多模型共用同一套流程。,設計文件與成本比較完成；Learner Lab 不可用部分附替代方案,賴政豪

@@ -1,0 +1,8 @@
+{
+  "rows": 10100,
+  "duplicates": 100,
+  "missing_income": 300,
+  "invalid_debt_ratio": 55,
+  "default_rate": 0.2158,
+  "rows_after_clean": 10000
+}
